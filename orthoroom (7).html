@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Web — Ortho Room | Bit3io</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde:#00C896;
+    --verde-soft:rgba(0,200,150,0.1);
+    --morado:#8B5CF6;
+    --cyan:#06B6D4;
+    --dark:#101014;
+    --card:rgba(255,255,255,0.045);
+    --card-2:rgba(255,255,255,0.025);
+    --card-border:rgba(255,255,255,0.09);
+    --txt:#EDEDF2;
+    --txt2:#9A9AA8;
+    --txt3:#6B6B78;
+    --ease:cubic-bezier(0.23,1,0.32,1);
+    --ease-out:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Bai Jamjuree',sans-serif;color:var(--txt);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(circle at 8% 2%, rgba(0,200,150,0.11), transparent 28%),
+      radial-gradient(circle at 94% 14%, rgba(139,92,246,0.10), transparent 30%),
+      radial-gradient(circle at 6% 44%, rgba(6,182,212,0.06), transparent 26%),
+      radial-gradient(circle at 96% 60%, rgba(0,200,150,0.05), transparent 30%),
+      radial-gradient(circle at 50% 96%, rgba(139,92,246,0.07), transparent 34%),
+      var(--dark);
+    background-attachment:fixed;
+    padding:0 18px 70px;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:900px;margin:0 auto;}
+
+  /* entrada animada */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-out), transform .7s var(--ease-out);}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1 !important;transform:none !important;transition:none;}}
+
+  /* HEADER */
+  .topbar{display:flex;justify-content:space-between;align-items:flex-start;padding:34px 4px 28px;flex-wrap:wrap;gap:14px;}
+  .logo{font-size:33px;font-weight:700;letter-spacing:-.5px;line-height:1;}
+  .logo .b3{color:var(--verde);}
+  .logo .io{color:var(--morado);}
+  .tagline{font-size:10.5px;color:var(--txt2);letter-spacing:2.5px;text-transform:uppercase;margin-top:5px;}
+  .doc-tag{text-align:right;font-size:10.5px;color:var(--txt2);letter-spacing:1.5px;text-transform:uppercase;}
+  .doc-tag .big{display:block;font-size:14px;color:var(--cyan);font-weight:600;letter-spacing:1px;margin-top:4px;}
+
+  /* HERO */
+  .hero-kicker{display:inline-block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--verde);background:var(--verde-soft);border:1px solid rgba(0,200,150,0.22);border-radius:100px;padding:6px 15px;margin-bottom:18px;}
+  h1.hero{font-size:clamp(30px,5.4vw,46px);font-weight:700;line-height:1.1;letter-spacing:-1.4px;margin-bottom:12px;}
+  h1.hero .accent{color:var(--verde);}
+  .hero-sub{font-size:15.5px;color:var(--txt2);max-width:620px;}
+  .meta-line{display:flex;gap:28px;margin-top:28px;font-size:12.5px;color:var(--txt2);flex-wrap:wrap;border-top:1px solid var(--card-border);padding-top:18px;}
+  .meta-line b{color:var(--txt);font-weight:600;display:block;font-size:13.5px;margin-bottom:2px;}
+
+  /* CARDS */
+  .card{background:var(--card);border:1px solid var(--card-border);border-radius:20px;padding:28px 30px;margin-bottom:16px;backdrop-filter:blur(12px);}
+  .card-lead{background:linear-gradient(135deg, rgba(0,200,150,0.10), rgba(139,92,246,0.06));border:1px solid rgba(0,200,150,0.18);}
+  .section-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;font-weight:600;}
+  p{font-size:14px;color:#C8C8D2;margin-bottom:12px;}
+  p:last-child{margin-bottom:0;}
+  p strong{color:var(--txt);font-weight:600;}
+  .verde{color:var(--verde);font-weight:600;}
+  .sec-title{margin:46px 4px 18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);font-weight:600;display:flex;align-items:center;gap:10px;}
+  .sec-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-border),transparent);}
+  .block-head{margin:46px 4px 6px;}
+  h3.block{font-size:clamp(23px,4.2vw,30px);font-weight:700;letter-spacing:-.6px;margin-bottom:6px;}
+  h3.block .accent{color:var(--verde);}
+  .block-sub{font-size:14px;color:var(--txt2);margin-bottom:22px;padding:0 4px;}
+
+  /* ACTIVOS DIGITALES (nuevo) */
+  .assets-intro{font-size:14px;color:#C8C8D2;margin-bottom:18px;}
+  .asset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media (max-width:720px){.asset-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:460px){.asset-grid{grid-template-columns:1fr;}}
+  .asset{background:var(--card-2);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;transition:transform .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease);}
+  .asset:hover{transform:translateY(-4px);border-color:rgba(0,200,150,0.4);background:var(--verde-soft);box-shadow:0 12px 30px -16px rgba(0,200,150,0.5);}
+  .asset .plat{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--txt3);margin-bottom:5px;font-weight:600;}
+  .asset .val{font-size:14px;color:var(--txt);font-weight:600;line-height:1.3;}
+  .asset .note{font-size:11px;color:var(--txt2);margin-top:3px;line-height:1.35;}
+  .verdict{margin-top:20px;padding:22px 24px;border-radius:16px;background:linear-gradient(135deg,rgba(139,92,246,0.10),rgba(0,200,150,0.05));border:1px solid rgba(139,92,246,0.22);}
+  .verdict p{margin-bottom:11px;font-size:13.5px;line-height:1.6;}
+  .verdict p:last-child{margin-bottom:0;}
+
+  /* PRECIOS - TARJETAS GRANDES */
+  .opts{display:flex;flex-direction:column;gap:16px;}
+  .opt{
+    background:var(--card);border:1px solid var(--card-border);border-radius:20px;
+    padding:26px 28px;position:relative;
+    display:grid;grid-template-columns:1fr 1.35fr;gap:26px;align-items:start;
+    transition:transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  .opt:hover{transform:translateY(-3px);box-shadow:0 16px 40px -20px rgba(0,0,0,0.6);}
+  .opt.reco{border:1.5px solid var(--verde);background:linear-gradient(150deg, rgba(0,200,150,0.09), rgba(255,255,255,0.015));box-shadow:0 14px 44px -18px rgba(0,200,150,0.4);}
+  .opt.reco:hover{box-shadow:0 20px 52px -18px rgba(0,200,150,0.5);}
+  .opt-badge{position:absolute;top:-11px;left:28px;background:var(--verde);color:var(--dark);font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:5px 14px;border-radius:100px;}
+  .opt-left{}
+  .opt-tier{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt2);margin-bottom:2px;font-weight:600;}
+  .opt.reco .opt-tier{color:var(--verde);}
+  .opt-name{font-size:19px;font-weight:700;letter-spacing:-.4px;margin-bottom:10px;line-height:1.15;}
+  .opt-price{font-size:34px;font-weight:700;letter-spacing:-1px;line-height:1;margin-bottom:4px;}
+  .opt-price small{font-size:14px;color:var(--txt2);font-weight:400;letter-spacing:0;}
+  .opt-pago{font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
+  .opt-tagline{font-size:12.5px;color:var(--txt2);line-height:1.5;border-top:1px solid var(--card-border);padding-top:12px;}
+  .opt-tagline.warn{color:#D99A3A;}
+  .opt-right ul{list-style:none;}
+  .opt-right li{font-size:12.5px;color:#C8C8D2;padding-left:20px;position:relative;margin-bottom:9px;line-height:1.45;}
+  .opt-right li:last-child{margin-bottom:0;}
+  .opt-right li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;border-radius:50%;background:var(--txt3);animation:pulseGray 2.6s var(--ease) infinite;}
+  .opt.reco .opt-right li::before{background:var(--verde);box-shadow:0 0 8px rgba(0,200,150,0.6);animation:pulseVerde 2.2s var(--ease) infinite;}
+  .opt-right li.no::before{background:transparent;border:1.5px solid #C25B4E;top:5px;width:8px;height:8px;animation:pulseRojo 2.4s var(--ease) infinite;}
+  .opt-right li.no{color:var(--txt2);}
+  /* stagger de los focos: cada li arranca su pulso desfasado */
+  .opt-right li:nth-child(1)::before{animation-delay:0s;}
+  .opt-right li:nth-child(2)::before{animation-delay:.35s;}
+  .opt-right li:nth-child(3)::before{animation-delay:.7s;}
+  .opt-right li:nth-child(4)::before{animation-delay:1.05s;}
+  .opt-right li:nth-child(5)::before{animation-delay:1.4s;}
+  @keyframes pulseVerde{
+    0%,100%{transform:scale(1);box-shadow:0 0 8px rgba(0,200,150,0.55);opacity:1;}
+    50%{transform:scale(.6);box-shadow:0 0 2px rgba(0,200,150,0.2);opacity:.55;}
+  }
+  @keyframes pulseGray{
+    0%,100%{transform:scale(1);opacity:.9;}
+    50%{transform:scale(.55);opacity:.4;}
+  }
+  @keyframes pulseRojo{
+    0%,100%{opacity:1;box-shadow:0 0 6px rgba(194,91,78,0.4);}
+    50%{opacity:.4;box-shadow:0 0 0 rgba(194,91,78,0);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .opt-right li::before,.opt.reco .opt-right li::before,.opt-right li.no::before{animation:none !important;}
+  }
+  .opt-right li b{color:var(--txt);font-weight:600;}
+  .opt-right li span.br{display:block;margin-top:6px;}
+  @media (max-width:640px){.opt{grid-template-columns:1fr;gap:18px;}}
+
+  /* ANCLA */
+  .anchor-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--card-border);font-size:13px;}
+  .anchor-row:last-child{border-bottom:none;}
+  .anchor-row .who{color:var(--txt2);}
+  .anchor-row .who small{display:block;color:var(--txt3);font-size:11px;margin-top:2px;}
+  .anchor-row .rng{color:var(--txt);font-weight:600;font-family:monospace;white-space:nowrap;}
+  .anchor-row.bit3{background:var(--verde-soft);margin:8px -16px 0;padding:16px;border-radius:12px;border-bottom:none;}
+  .anchor-row.bit3 .who{color:var(--verde);font-weight:600;}
+  .anchor-row.bit3 .rng{color:var(--verde);}
+
+  /* GRID 2 */
+  .grid2{display:flex;gap:14px;flex-wrap:wrap;}
+  .grid2 > .box{flex:1;min-width:230px;background:var(--card-2);border:1px solid var(--card-border);border-radius:14px;padding:20px 22px;transition:transform .3s var(--ease),border-color .3s var(--ease);}
+  .grid2 > .box:hover{transform:translateY(-3px);border-color:rgba(0,200,150,0.3);}
+  .mini-title{font-size:14.5px;font-weight:600;color:var(--txt);margin-bottom:7px;}
+  .mini-title.verde{color:var(--verde);}
+  .mini-txt{font-size:12.5px;color:var(--txt2);line-height:1.55;}
+
+  /* TRABAJO VERIFICABLE */
+  .proof{background:linear-gradient(135deg, rgba(6,182,212,0.06), rgba(0,200,150,0.04));border:1px solid rgba(6,182,212,0.2);}
+  .proof-tag{display:inline-block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.28);border-radius:100px;padding:6px 15px;margin-bottom:16px;font-weight:600;}
+  .proof-list{list-style:none;}
+  .proof-list li{font-size:12.5px;color:#C8C8D2;padding-left:22px;position:relative;margin-bottom:8px;line-height:1.4;}
+  .proof-list li::before{content:"1º";position:absolute;left:0;top:0;font-size:9px;font-weight:700;color:var(--verde);background:var(--verde-soft);border:1px solid rgba(0,200,150,0.3);border-radius:5px;padding:1px 3px;line-height:1.3;}
+  .li-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.04);color:var(--txt);border:1px solid var(--card-border);
+    font-family:inherit;font-weight:600;font-size:13.5px;padding:12px 26px;border-radius:100px;
+    text-decoration:none;letter-spacing:.2px;cursor:pointer;
+    transition:background .22s var(--ease), border-color .22s var(--ease), color .22s var(--ease), transform .22s var(--ease), box-shadow .22s var(--ease);
+  }
+  .li-btn:hover{background:#0A66C2;border-color:#0A66C2;color:#fff;transform:translateY(-2px);box-shadow:0 12px 28px -10px rgba(10,102,194,0.7);}
+  .li-btn:active{transform:scale(.97);background:#004182;border-color:#004182;}
+
+  /* WEBS DESARROLLADAS */
+  .webs-block{margin-top:24px;padding-top:22px;border-top:1px solid var(--card-border);text-align:center;}
+  .webs-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3);margin-bottom:14px;font-weight:600;}
+  .webs-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+  .web-btn{
+    display:inline-flex;align-items:center;font-family:inherit;font-weight:600;font-size:13px;
+    padding:10px 20px;border-radius:100px;text-decoration:none;letter-spacing:.2px;cursor:pointer;
+    background:rgba(255,255,255,0.04);color:var(--txt);border:1px solid var(--card-border);
+    transition:background .22s var(--ease), border-color .22s var(--ease), color .22s var(--ease), transform .22s var(--ease), box-shadow .22s var(--ease);
+  }
+  .web-verde:hover{background:var(--verde);border-color:var(--verde);color:var(--dark);transform:translateY(-2px);box-shadow:0 12px 26px -10px rgba(0,200,150,0.65);}
+  .web-verde:active{transform:scale(.97);background:#00a87d;border-color:#00a87d;}
+  .web-morado:hover{background:var(--morado);border-color:var(--morado);color:#fff;transform:translateY(-2px);box-shadow:0 12px 26px -10px rgba(139,92,246,0.65);}
+  .web-morado:active{transform:scale(.97);background:#7040e0;border-color:#7040e0;}
+  .web-soon{color:var(--txt3);border-style:dashed;cursor:default;font-weight:500;}
+  .web-soon:hover{border-color:rgba(0,200,150,0.4);color:var(--verde);}
+
+  /* CONDICIONES */
+  .cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 30px;}
+  .cond h4{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:4px;font-weight:600;}
+  .cond p{font-size:12.5px;color:#C8C8D2;margin-bottom:0;}
+  .cond strong{color:var(--txt);}
+  @media (max-width:560px){.cond-grid{grid-template-columns:1fr;}}
+
+  /* CLOSING */
+  .closing{text-align:center;padding:40px 26px;margin-top:8px;background:linear-gradient(135deg, rgba(0,200,150,0.09), rgba(139,92,246,0.06));border:1px solid rgba(0,200,150,0.18);border-radius:22px;}
+  .closing h2{font-size:clamp(18px,3vw,22px);font-weight:600;line-height:1.35;margin-bottom:22px;max-width:92%;margin-left:auto;margin-right:auto;}
+  .closing h2 .accent{color:var(--verde);}
+  .wa-btn{display:inline-block;background:var(--verde);color:var(--dark);font-weight:700;font-size:15px;padding:16px 38px;border-radius:100px;text-decoration:none;letter-spacing:.3px;transition:transform .18s var(--ease), box-shadow .18s var(--ease);}
+  .wa-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(0,200,150,0.55);}
+  .wa-btn:active{transform:scale(.97);}
+  .closing .note{font-size:12px;color:var(--txt2);margin-top:16px;}
+
+  .pill{display:inline-block;font-size:10.5px;color:var(--morado);border:1px solid rgba(139,92,246,0.3);background:rgba(139,92,246,0.08);border-radius:100px;padding:4px 12px;letter-spacing:.5px;margin-bottom:12px;}
+
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--txt3);border-top:1px solid var(--card-border);padding:24px 4px 0;margin-top:36px;letter-spacing:.4px;}
+  .foot .sig b{color:var(--verde);font-weight:600;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar reveal">
+    <div>
+      <div class="logo"><span class="b3">Bit3</span><span class="io">io</span></div>
+      <div class="tagline">Actualización y Desarrollo Digital</div>
+    </div>
+    <div class="doc-tag">Propuesta de Desarrollo Web<span class="big">Ortho Room</span></div>
+  </div>
+
+  <div class="reveal" style="padding:0 4px 6px">
+    <div class="hero-kicker">Consultorio dental · Diseño de sonrisa</div>
+    <h1 class="hero">Tu sonrisa es de lujo.<br><span class="accent">Tu presencia web debería serlo también.</span></h1>
+    <p class="hero-sub">Una página profesional propia, a la altura de Ortho Room y de sus pacientes, en Polanco y Cuernavaca.</p>
+    <div class="meta-line">
+      <div><b>Dr. Rogelio Román Bernal</b>Ortodoncista · 10 años · IPN</div>
+      <div><b>Av. Presidente Masaryk 178</b>Polanco, CDMX · + Cuernavaca</div>
+      <div><b>Agosto 2026</b>Vigencia: 15 días naturales</div>
+    </div>
+  </div>
+
+  <div style="height:26px"></div>
+
+  <!-- VALIDACIÓN -->
+  <div class="card card-lead reveal">
+    <div class="section-label">Para el Dr. Rogelio y Ortho Room</div>
+    <p>Ortho Room ya tiene lo más difícil: un consultorio de prestigio en Masaryk, dos sucursales, diez años de trayectoria y la confianza de sus pacientes, que en sus reseñas te llaman <em>"el mejor Doc"</em>. La marca ya transmite lo que promete: los diseñadores de la sonrisa de tus sueños.</p>
+    <p>Lo que falta es un espacio digital propio que esté a esa altura. Y antes de proponerte nada, nos tomamos el tiempo de estudiar a fondo toda tu presencia en internet.</p>
+  </div>
+
+  <!-- ACTIVOS DIGITALES INVESTIGADOS (nuevo, para que sienta prioridad) -->
+  <div class="sec-title reveal">Revisamos toda tu presencia digital, una por una</div>
+  <div class="card reveal" style="padding:34px 34px 32px">
+    <p class="assets-intro">Esto es lo que encontramos hoy sobre Ortho Room en internet:</p>
+    <div class="asset-grid">
+      <div class="asset">
+        <div class="plat">Instagram</div>
+        <div class="val">@orthoroom</div>
+        <div class="note">Activo, tu vitrina principal</div>
+      </div>
+      <div class="asset">
+        <div class="plat">TikTok</div>
+        <div class="val">@ortho.room</div>
+        <div class="note">Contenido en video</div>
+      </div>
+      <div class="asset">
+        <div class="plat">Facebook</div>
+        <div class="val">Ortho Room</div>
+        <div class="note">Página del consultorio</div>
+      </div>
+      <div class="asset">
+        <div class="plat">Doctoralia</div>
+        <div class="val">11 reseñas · casi todas 5★</div>
+        <div class="note">"El mejor Doc", dicen tus pacientes</div>
+      </div>
+      <div class="asset">
+        <div class="plat">Google Maps</div>
+        <div class="val">Perfil de negocio</div>
+        <div class="note">Ubicación Polanco</div>
+      </div>
+      <div class="asset">
+        <div class="plat">Linktree</div>
+        <div class="val">Concentra todo</div>
+        <div class="note">Enlace gratuito de terceros</div>
+      </div>
+    </div>
+    <div class="verdict">
+      <p>El diagnóstico es claro: tienes una presencia digital sólida y bien cuidada, pero <strong>toda vive en plataformas prestadas y desemboca en un Linktree.</strong></p>
+      <p>No hay un lugar en internet que sea tuyo. Si alguien busca "ortodoncista en Polanco" o "diseño de sonrisa CDMX" en Google, encuentra a tu competencia con página propia, no a Ortho Room.</p>
+      <p>Y lo que construyes en redes puede desaparecer con un cambio de algoritmo o una cuenta suspendida.</p>
+      <p><span class="verde">Una web propia es el único espacio que controlas al 100%, y el cimiento para todo lo demás.</span></p>
+    </div>
+  </div>
+
+  <!-- PRECIOS -->
+  <div class="block-head reveal">
+    <h3 class="block">Tres formas de <span class="accent">dar el paso</span></h3>
+  </div>
+  <p class="block-sub reveal">Cada opción te deja en internet a un nivel distinto. Lo importante es que entiendas exactamente qué recibes en cada una.</p>
+
+  <div class="opts">
+
+    <!-- ESENCIAL -->
+    <div class="opt reveal">
+      <div class="opt-left">
+        <div class="opt-tier">Opción 1 · Punto de entrada</div>
+        <div class="opt-name">Página en GitHub</div>
+        <div class="opt-price">$6,500 <small>MXN</small></div>
+        <div class="opt-pago">Pago único</div>
+        <div class="opt-tagline warn">Es la más económica, pero también la más limitada: tu página existe, pero no vive en internet de forma propia.</div>
+      </div>
+      <div class="opt-right">
+        <ul>
+          <li>Diseño profesional a la medida, 100% responsive</li>
+          <li>Integración con WhatsApp y redes</li>
+          <li class="no"><b>Sin dominio ni hosting propios:</b> la página se aloja en GitHub. En la práctica, no existes en internet: si alguien te busca en Google, no aparece, solo tus redes</li>
+          <li class="no"><b>Tráfico no medible ni rastreable:</b> no sabes quién entra, cuánta gente, ni de dónde</li>
+          <li class="no"><b>Sin SEO ni GEO</b> (posicionamiento en Google e IAs): al vivir en GitHub, no compite por búsquedas</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ESTÁNDAR -->
+    <div class="opt reveal">
+      <div class="opt-left">
+        <div class="opt-tier">Opción 2 · Ya en internet</div>
+        <div class="opt-name">Landing con dominio</div>
+        <div class="opt-price">$8,000 <small>MXN</small></div>
+        <div class="opt-pago">Pago único · 1er año incluido</div>
+        <div class="opt-tagline">Ya existes de verdad en internet, con dirección propia y visitas medibles. Pero todo tu contenido vive en una sola pantalla: el visitante baja y baja por una única página larga, sin secciones separadas.</div>
+      </div>
+      <div class="opt-right">
+        <ul>
+          <li>Todo lo anterior, más:</li>
+          <li><b>Dominio propio</b> (orthoroom.mx o similar) + hosting y SSL, 1er año incluido</li>
+          <li><b>Tráfico medible y rastreable:</b> sabes cuánta gente entra y de dónde</li>
+          <li><b>Una sola página, todo en una pantalla:</b> imagina un folleto largo que se desenrolla hacia abajo. <span class="br">Toda la información (quién eres, servicios, contacto) está apilada en esa misma página. No hay una página aparte y dedicada para el blog, para el consultorio, ni para cada servicio.</span> <span class="br">Sirve para una presencia rápida, pero se queda corta si quieres crecer.</span></li>
+          <li>Ideal para presencia rápida y profesional</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECOMENDADA -->
+    <div class="opt reco reveal">
+      <div class="opt-badge">Recomendada</div>
+      <div class="opt-left">
+        <div class="opt-tier">Opción 3 · El sitio completo</div>
+        <div class="opt-name">Web Completa</div>
+        <div class="opt-price">$12,000 <small>MXN</small></div>
+        <div class="opt-pago">Pago único · 1er año incluido</div>
+        <div class="opt-tagline">El sitio completo de Ortho Room: en lugar de una sola pantalla, aquí cada tema tiene su propia página dedicada. Es la versión profesional y la base para crecer de verdad.</div>
+      </div>
+      <div class="opt-right">
+        <ul>
+          <li>Todo lo anterior, más:</li>
+          <li><b>Dominio + hosting 1er año incluido</b> (2 o 3 años disponibles con ajuste de precio)</li>
+          <li><b>Sitio completo con varias páginas dedicadas:</b> a diferencia del de una sola pantalla, aquí cada tema tiene su propia página independiente, como los cuartos de una casa. <span class="br">Una página solo para Inicio, otra 100% dedicada al Dr. Rogelio y su trayectoria, otra para Servicios, otra para el Blog, otra de Contacto, más Aviso de Privacidad, Política Editorial y Disclaimer.</span> <span class="br">Cada sección tiene el espacio que merece, se ve más profesional y Google la entiende mejor.</span></li>
+          <li>Tráfico medible y rastreable</li>
+          <li><b>Optimización para Google e IAs (SEO y GEO):</b> se deja el sitio preparado. <span class="br">Sus beneficios se desbloquean al publicar contenido, por tu cuenta o con el servicio de contenido web más adelante.</span> <span class="br">Es lo que ya viste funcionando: artículos como "origen de la contabilidad" u "origen de los recursos humanos" en primer lugar de Google, generando tráfico orgánico mes a mes.</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ANCLA MERCADO -->
+  <div class="card reveal" style="margin-top:16px">
+    <div class="section-label">Lo que cobra el mercado (y por qué esto es distinto)</div>
+    <div class="anchor-row"><span class="who">Agencias por una web profesional <small>Precio por un resultado promedio: plantilla, entrega y ya</small></span><span class="rng">$15,000 – $30,000</span></div>
+    <div class="anchor-row"><span class="who">Sitio informativo con blog <small>Desarrollo a medida en agencia</small></span><span class="rng">$18,000 – $55,000</span></div>
+    <div class="anchor-row"><span class="who">Software / plataformas de agenda dental <small>Renta mensual, para siempre</small></span><span class="rng">$1,000 – $4,000 / mes</span></div>
+    <div class="anchor-row bit3"><span class="who">Tu inversión con Bit3io · Web Completa</span><span class="rng">$12,000 pago único</span></div>
+    <p style="margin-top:16px;font-size:13px;color:var(--txt2)">Y sobre todo: no entregamos una plantilla y desaparecemos. Somos más que eso. La web es el punto de partida de una relación, con el mismo cuidado con el que estudiamos tu presencia digital antes de escribir esta propuesta.</p>
+  </div>
+
+  <!-- LO QUE SIGUE -->
+  <div class="sec-title reveal">Lo que sigue, cuando tú quieras</div>
+  <div class="card card-lead reveal">
+    <span class="pill">Sin prisa · A tu ritmo</span>
+    <p>La web es el cimiento. Una vez lista, se abren dos caminos naturales para llevar Ortho Room más lejos:</p>
+    <div class="grid2" style="margin-top:16px">
+      <div class="box">
+        <div class="mini-title verde">Posicionamiento (SEO y en IAs)</div>
+        <div class="mini-txt">Contenido que haga aparecer a Ortho Room cuando alguien busca ortodoncista o diseño de sonrisa en Google, ChatGPT o Gemini. Es lo que ya viste funcionando en los sitios que manejo: tráfico orgánico real, mes a mes.</div>
+      </div>
+      <div class="box">
+        <div class="mini-title verde">Automatización de facturación</div>
+        <div class="mini-txt">Un sistema que genere tus facturas de forma automática, para reducir la dependencia de un servicio contable mensual. Se dimensiona y cotiza aparte cuando terminemos la web.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRABAJO VERIFICABLE -->
+  <div class="card reveal proof">
+    <div class="proof-tag">Trabajo y experiencia verificable</div>
+    <p style="font-size:13.5px;margin-bottom:18px">No son promesas. Esto ya está funcionando hoy, y lo puedes comprobar tú mismo:</p>
+    <div class="grid2">
+      <div class="box">
+        <div class="mini-title verde">Blogs posicionados en primer lugar de Google</div>
+        <div class="mini-txt" style="margin-bottom:12px">Contenido que escribí y que hoy rankea en los primeros lugares, generando tráfico orgánico mes a mes:</div>
+        <ul class="proof-list">
+          <li>Origen de la contabilidad</li>
+          <li>Origen de los recursos humanos</li>
+          <li>Tipo de registro REPSE</li>
+          <li>Declarar ingresos de Twitch</li>
+        </ul>
+      </div>
+      <div class="box">
+        <div class="mini-title verde">Automatización desarrollada por mí</div>
+        <div class="mini-txt">El video y el funcionamiento de la automatización de facturación que desarrollé estarán visibles próximamente en mi LinkedIn, para que veas exactamente cómo opera un sistema como el que Ortho Room podría tener.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:22px">
+      <a href="https://www.linkedin.com/in/valent%C3%ADn-blas-bb2282254/" class="li-btn" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-3px;margin-right:8px"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        Ver en LinkedIn
+      </a>
+    </div>
+
+    <div class="webs-block">
+      <div class="webs-label">Webs desarrolladas por mí — visítalas ahora mismo</div>
+      <div class="webs-row">
+        <a href="https://galahr.com" class="web-btn web-morado" target="_blank" rel="noopener">galahr.com</a>
+        <a href="https://bit3io.com" class="web-btn web-verde" target="_blank" rel="noopener">bit3io.com</a>
+        <a href="https://drjacky.mx" class="web-btn web-verde" target="_blank" rel="noopener">drjacky.mx</a>
+        <span class="web-btn web-soon">orthoroom.mx · próximamente</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRATO ESPECIAL -->
+  <div class="card reveal" style="border-color:rgba(0,200,150,0.28);background:linear-gradient(135deg,rgba(0,200,150,0.08),rgba(139,92,246,0.04))">
+    <div class="section-label" style="color:var(--verde)">Un trato especial entre nosotros</div>
+    <p>Como ya nos conocemos y tengo agendada contigo la extracción de mis muelas del juicio para el <strong>11 de septiembre</strong>, si te parece podemos trabajarlo así:</p>
+    <p style="margin-top:10px"><strong>El descuento que me hagas en esa extracción, total o parcial, se toma a cuenta de la web.</strong> Así tú cubres solo la diferencia restante del paquete que elijas. El beneficio va en los dos sentidos y lo afinamos juntos.</p>
+  </div>
+
+  <!-- CONDICIONES -->
+  <div class="card reveal">
+    <div class="section-label">Condiciones comerciales</div>
+    <div class="cond-grid">
+      <div class="cond"><h4>Vigencia</h4><p><strong>15 días naturales</strong> desde la emisión.</p></div>
+      <div class="cond"><h4>Tiempo de entrega</h4><p><strong>4 a 5 semanas</strong> desde el anticipo e insumos.</p></div>
+      <div class="cond"><h4>Forma de pago</h4><p><strong>50%</strong> al inicio · <strong>50%</strong> al entregar en operación.</p></div>
+      <div class="cond"><h4>Método</h4><p>Transferencia. Efectivo máximo 30% del total.</p></div>
+      <div class="cond"><h4>Facturación</h4><p>Los precios son <strong>antes de IVA</strong> en caso de requerir factura. Sin factura, es el precio normal sin IVA.</p></div>
+      <div class="cond"><h4>Dominio y hosting</h4><p>1er año incluido. Renovación desde el año 2 (2 o 3 años con ajuste de precio).</p></div>
+      <div class="cond"><h4>Revisiones</h4><p><strong>3 rondas</strong> de ajustes incluidas. Cambios fuera de alcance se cotizan aparte.</p></div>
+      <div class="cond"><h4>Disponibilidad de dominio</h4><p>Sujeto a disponibilidad. Se buscan alternativas juntos si el nombre está tomado.</p></div>
+    </div>
+  </div>
+
+  <!-- CIERRE -->
+  <div class="closing reveal">
+    <h2>Ortho Room ya tiene el prestigio, las sonrisas y los pacientes.<br>Esto es solo <span class="accent">la presencia digital que le falta.</span></h2>
+    <a href="https://wa.me/525522790448" class="wa-btn">Confirmar por WhatsApp</a>
+    <div class="note">Cualquier duda o ajuste, estamos a un mensaje.</div>
+  </div>
+
+  <div class="foot reveal">
+    <div class="sig">Valentín Blas · <b>Bit3io</b> — Actualización y Desarrollo Digital</div>
+    <div>Bit3io · 2026</div>
+  </div>
+
+</div>
+
+<script>
+  // Reveal on scroll — stagger suave estilo Kowalski
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        const el = e.target;
+        setTimeout(()=>el.classList.add('in'), Math.min(i*40, 120));
+        io.unobserve(el);
+      }
+    });
+  },{threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
